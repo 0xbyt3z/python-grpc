@@ -3,8 +3,8 @@ from __future__ import print_function
 import logging
 
 import grpc
-from proto import helloworld_pb2_grpc
-from proto import helloworld_pb2
+import helloworld_pb2_grpc
+import helloworld_pb2
 
 def run():
     with grpc.insecure_channel("localhost:50051") as channel:
