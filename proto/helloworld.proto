@@ -1,22 +1,32 @@
 syntax = "proto3";
 
-// option java_multiple_files = true;
-// option java_package = "io.grpc.examples.helloworld";
-// option java_outer_classname = "HelloWorldProto";
-// option objc_class_prefix = "HLW";
+// import "google/protobuf/any.proto";
+
 
 package helloworld;
 
 // The greeting service definition.
 service Greeter {
   // Sends a greeting
-  rpc SayHello (HelloRequest) returns (HelloReply) {}
+  rpc SayHello (HelloRequest) returns (HelloReponse) {}
 
-  rpc SayHelloStreamReply (HelloRequest) returns (stream HelloReply) {}
+  rpc SayHelloStreamResponse (HelloRequest) returns (stream HelloReponse) {}
 
-  rpc SayHelloStreamRequest (stream HelloRequest) returns (HelloReply) {}
+  rpc SayHelloStreamRequest (stream HelloRequest) returns (HelloReponse) {}
 
-  rpc SayHelloBidiStream (stream HelloRequest) returns (stream HelloReply) {}
+  rpc SayHelloBidiStream (stream HelloRequest) returns (stream HelloReponse) {}
+
+
+  rpc DataTypes(DTRequest) returns (DTResponse){}
+
+}
+
+
+enum enumtype {
+  A = 0;
+  B = 1;
+  C = 2;
+  D = 3;
 }
 
 // The request message containing the user's name.
@@ -24,6 +34,43 @@ message HelloRequest {
   string name = 1;
 }
 // The response message containing the greetings
-message HelloReply {
+message HelloReponse {
   string message = 1;
+}
+
+
+message DTRequest {
+  // Primitive Data Types
+  int32 int32_value = 1;
+  sint32 sint32_value = 2;
+  fixed32 fixed32_value = 3;
+  int64 int64_value = 4;
+  sint64 sint64_value = 5;
+  fixed64 fixed64_value = 6;
+  uint32 uint32_value = 7;
+  sfixed32 sfixed32_value = 8;
+  sfixed64 sfixed64_value = 9;
+  bool bool_value = 10;
+  float float_value = 11;
+  double double_value = 12;
+  string string_value = 13;
+  bytes bytes_value = 14;
+
+  // Enums
+  enum Status {
+    UNKNOWN = 0;
+    OK = 1;
+    ERROR = 2;
+  }
+  
+  Status status = 15;
+
+  // Maps
+  map<string, int32> string_to_int32_map = 16;
+  map<int32, string> int32_to_string_map = 17;
+}
+
+
+message DTResponse {
+  bool value = 1;
 }

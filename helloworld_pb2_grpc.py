@@ -18,22 +18,27 @@ class GreeterStub(object):
         self.SayHello = channel.unary_unary(
                 '/helloworld.Greeter/SayHello',
                 request_serializer=helloworld__pb2.HelloRequest.SerializeToString,
-                response_deserializer=helloworld__pb2.HelloReply.FromString,
+                response_deserializer=helloworld__pb2.HelloReponse.FromString,
                 )
-        self.SayHelloStreamReply = channel.unary_stream(
-                '/helloworld.Greeter/SayHelloStreamReply',
+        self.SayHelloStreamResponse = channel.unary_stream(
+                '/helloworld.Greeter/SayHelloStreamResponse',
                 request_serializer=helloworld__pb2.HelloRequest.SerializeToString,
-                response_deserializer=helloworld__pb2.HelloReply.FromString,
+                response_deserializer=helloworld__pb2.HelloReponse.FromString,
                 )
         self.SayHelloStreamRequest = channel.stream_unary(
                 '/helloworld.Greeter/SayHelloStreamRequest',
                 request_serializer=helloworld__pb2.HelloRequest.SerializeToString,
-                response_deserializer=helloworld__pb2.HelloReply.FromString,
+                response_deserializer=helloworld__pb2.HelloReponse.FromString,
                 )
         self.SayHelloBidiStream = channel.stream_stream(
                 '/helloworld.Greeter/SayHelloBidiStream',
                 request_serializer=helloworld__pb2.HelloRequest.SerializeToString,
-                response_deserializer=helloworld__pb2.HelloReply.FromString,
+                response_deserializer=helloworld__pb2.HelloReponse.FromString,
+                )
+        self.DataTypes = channel.unary_unary(
+                '/helloworld.Greeter/DataTypes',
+                request_serializer=helloworld__pb2.DTRequest.SerializeToString,
+                response_deserializer=helloworld__pb2.DTResponse.FromString,
                 )
 
 
@@ -48,7 +53,7 @@ class GreeterServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def SayHelloStreamReply(self, request, context):
+    def SayHelloStreamResponse(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -66,28 +71,39 @@ class GreeterServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def DataTypes(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_GreeterServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'SayHello': grpc.unary_unary_rpc_method_handler(
                     servicer.SayHello,
                     request_deserializer=helloworld__pb2.HelloRequest.FromString,
-                    response_serializer=helloworld__pb2.HelloReply.SerializeToString,
+                    response_serializer=helloworld__pb2.HelloReponse.SerializeToString,
             ),
-            'SayHelloStreamReply': grpc.unary_stream_rpc_method_handler(
-                    servicer.SayHelloStreamReply,
+            'SayHelloStreamResponse': grpc.unary_stream_rpc_method_handler(
+                    servicer.SayHelloStreamResponse,
                     request_deserializer=helloworld__pb2.HelloRequest.FromString,
-                    response_serializer=helloworld__pb2.HelloReply.SerializeToString,
+                    response_serializer=helloworld__pb2.HelloReponse.SerializeToString,
             ),
             'SayHelloStreamRequest': grpc.stream_unary_rpc_method_handler(
                     servicer.SayHelloStreamRequest,
                     request_deserializer=helloworld__pb2.HelloRequest.FromString,
-                    response_serializer=helloworld__pb2.HelloReply.SerializeToString,
+                    response_serializer=helloworld__pb2.HelloReponse.SerializeToString,
             ),
             'SayHelloBidiStream': grpc.stream_stream_rpc_method_handler(
                     servicer.SayHelloBidiStream,
                     request_deserializer=helloworld__pb2.HelloRequest.FromString,
-                    response_serializer=helloworld__pb2.HelloReply.SerializeToString,
+                    response_serializer=helloworld__pb2.HelloReponse.SerializeToString,
+            ),
+            'DataTypes': grpc.unary_unary_rpc_method_handler(
+                    servicer.DataTypes,
+                    request_deserializer=helloworld__pb2.DTRequest.FromString,
+                    response_serializer=helloworld__pb2.DTResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -113,12 +129,12 @@ class Greeter(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/helloworld.Greeter/SayHello',
             helloworld__pb2.HelloRequest.SerializeToString,
-            helloworld__pb2.HelloReply.FromString,
+            helloworld__pb2.HelloReponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def SayHelloStreamReply(request,
+    def SayHelloStreamResponse(request,
             target,
             options=(),
             channel_credentials=None,
@@ -128,9 +144,9 @@ class Greeter(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_stream(request, target, '/helloworld.Greeter/SayHelloStreamReply',
+        return grpc.experimental.unary_stream(request, target, '/helloworld.Greeter/SayHelloStreamResponse',
             helloworld__pb2.HelloRequest.SerializeToString,
-            helloworld__pb2.HelloReply.FromString,
+            helloworld__pb2.HelloReponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -147,7 +163,7 @@ class Greeter(object):
             metadata=None):
         return grpc.experimental.stream_unary(request_iterator, target, '/helloworld.Greeter/SayHelloStreamRequest',
             helloworld__pb2.HelloRequest.SerializeToString,
-            helloworld__pb2.HelloReply.FromString,
+            helloworld__pb2.HelloReponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -164,6 +180,23 @@ class Greeter(object):
             metadata=None):
         return grpc.experimental.stream_stream(request_iterator, target, '/helloworld.Greeter/SayHelloBidiStream',
             helloworld__pb2.HelloRequest.SerializeToString,
-            helloworld__pb2.HelloReply.FromString,
+            helloworld__pb2.HelloReponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def DataTypes(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/helloworld.Greeter/DataTypes',
+            helloworld__pb2.DTRequest.SerializeToString,
+            helloworld__pb2.DTResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
