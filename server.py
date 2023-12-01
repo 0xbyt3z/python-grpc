@@ -6,6 +6,9 @@ import helloworld_pb2_grpc
 import helloworld_pb2
 
 
+from grpc_reflection.v1alpha import reflection
+
+
 from auth import authenticate
 
 class Greeter(helloworld_pb2_grpc.GreeterServicer):
@@ -35,6 +38,13 @@ def serve():
     port = "50051"
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=2))
     helloworld_pb2_grpc.add_GreeterServicer_to_server(Greeter(), server)
+
+    SERVICE_NAMES = (
+        helloworld_pb2.DESCRIPTOR.services_by_name['Greeter'].full_name,
+        reflection.SERVICE_NAME,
+    )
+    reflection.enable_server_reflection(SERVICE_NAMES, server)
+
     server.add_insecure_port("[::]:" + port)
     server.start()
     print("Server started, listening on " + port)
